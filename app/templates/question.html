@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Question{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <p>Question: {{ question.text }} </p>
+</div>
+
+{% if question.answers %}
+    {% for a in question.answers %}
+        <a class="list-group-item list-group-item-action answerselect" answer_id="{{ a.id }}" href="#">{{ a.text }}</a>
+    {% endfor %}
+{% endif %}
+
+<button type="button" class="btn btn-light" onclick="location.href='/quizzes/{{ question.quiz_id }}'">Back</button>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        $(".answerselect").click(function(){
+            var answer_id = $(this).attr('answer_id');
+            $.post("/question_answer/" + answer_id, function(data, status){
+                var correct = JSON.parse(data).correct;
+                if (correct) {
+                    alert("Correct, well done.");
+                } else {
+                    alert("Incorrect, better luck next time.");
+                }
+                window.location.href = "/quizzes/{{ question.quiz_id }}";
+            })
+            .fail(function() {
+                alert( "error" );
+            });
+
+        });
+    </script>
+{% endblock %}

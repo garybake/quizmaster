@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Quiz{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <p>Quiz List</p>
+</div>
+
+{% if quizzes %}
+    {% for q in quizzes %}
+        <a class="list-group-item list-group-item-action" href="/quizzes/{{ q.id }}">{{ q.name }}</a>
+    {% endfor %}
+{% endif %}
+
+{% endblock %}
