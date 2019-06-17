@@ -1,3 +1,10 @@
+"""Create the database for quizzes.
+
+Create an admin users
+Creates 10x quizzes with 5x questions and 4x answers each
+(Answer 3 will be the correct answer
+TODO: is it easier to jumble the answers during render)
+"""
 from app import create_app, db, models
 
 app = create_app()
@@ -13,6 +20,7 @@ with app.app_context():
 
     admin_user = models.User(name='admin', is_admin=True)
     db.session.add(admin_user)
+    db.session.commit()
 
     for qz in range(QUIZ_COUNT):
         commit_list = []
@@ -21,25 +29,15 @@ with app.app_context():
 
         questions = []
         for qs in range(QUESTIONS_PER_QUIZ):
-            question = models.Question(text="What is the {} of {}?".format(qz, qs), quiz=quiz)
+            question = models.Question(
+                text="What is the {} of {}?".format(qz, qs), quiz=quiz)
             commit_list.append(question)
             for ans in range(ANSWERS_PER_QUESTION):
-                correct = (ans == 4)
-                answer = models.Answer(text="ans {}_{}_{}".format(qz, qs, ans), question=question, is_correct=correct)
+                correct = (ans == 2)
+                answer = models.Answer(
+                    text="ans {}_{}_{}".format(qz, qs, ans), question=question,
+                    is_correct=correct)
                 commit_list.append(answer)
 
         db.session.add_all(commit_list)
         db.session.commit()
-
-    # selection1 = models.AnswerSelect(user=admin_user, answer=answer11)
-    # selection2 = models.AnswerSelect(user=admin_user, answer=answer23)
-    # db.session.add_all([selection1, selection2])
-
-    # db.session.commit()
-
-    # quiz = models.Quiz.query.first()
-    # print(quiz.questions)
-
-    # questions = models.Question.query.filter_by(quiz=quiz).all()
-    
-    # answered = models.Question.query.filter_by(quiz=quiz).all()

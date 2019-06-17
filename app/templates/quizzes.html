@@ -4,12 +4,12 @@
 
 {% block page_content %}
 <div class="page-header">
-    <p>Quiz List</p>
+    <p><h1>Quiz List</h1></p>
 </div>
 
 {% if quizzes %}
     {% for q in quizzes %}
-        <a class="list-group-item list-group-item-action" href="/quizzes/{{ q.id }}">{{ q.name }}</a>
+        <a class="list-group-item list-group-item-action" href="/quizzes/{{ q.id }}">{{ q.name }}  ({{ q.question_count }})</a>
     {% endfor %}
 {% endif %}
 

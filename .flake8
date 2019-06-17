@@ -1,0 +1,9 @@
+[flake8]
+exclude = .git,__pycache__,*/migrations/*,venv
+ignore=
+inline-quotes = "
+multiline-quotes= """
+
+per-file-ignores=
+    test_*.py:D
+

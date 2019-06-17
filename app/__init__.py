@@ -13,6 +13,7 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
+    # TODO extract the config out
     app.config['SECRET_KEY'] = 'asdjalsdkjlsadjlsakjdoo'
     bootstrap.init_app(app)
     app.config['SQLALCHEMY_DATABASE_URI'] =\

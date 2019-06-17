@@ -1,5 +1,4 @@
-import os
-
+"""Quiz flask application."""
 from app import create_app, db
 from flask_migrate import Migrate
 

@@ -4,8 +4,12 @@
 
 {% block page_content %}
 <div class="page-header">
-    <p>Quiz: {{ quizz.name }} </p>
+    <p>Quiz: <h1>{{ quizz.name }}</h1> </p>
 </div>
+
+{% if quiz_done %}
+<div class="alert alert-success" role="alert">Quiz Completed -- (1/5)</div>
+{% endif %}
 
 {% if quizz.questions %}
     {% for q in quizz.questions %}
