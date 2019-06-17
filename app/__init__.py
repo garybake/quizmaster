@@ -1,3 +1,4 @@
+"""Main package for the application."""
 import os
 import tempfile
 
@@ -12,13 +13,14 @@ db = SQLAlchemy()
 
 
 def create_app():
+    """Create the config and the application."""
     app = Flask(__name__)
     # TODO extract the config out
-    app.config['SECRET_KEY'] = 'asdjalsdkjlsadjlsakjdoo'
+    app.config["SECRET_KEY"] = "asdjalsdkjlsadjlsakjdoo"
     bootstrap.init_app(app)
-    app.config['SQLALCHEMY_DATABASE_URI'] =\
-        'sqlite:////' + os.path.join(tempfile.gettempdir(), 'quiz.sqlite')
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config["SQLALCHEMY_DATABASE_URI"] =\
+        "sqlite:////" + os.path.join(tempfile.gettempdir(), "quiz.sqlite")
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     db.init_app(app)
 

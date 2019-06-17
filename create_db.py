@@ -18,13 +18,13 @@ with app.app_context():
     db.drop_all()
     db.create_all()
 
-    admin_user = models.User(name='admin', is_admin=True)
+    admin_user = models.User(name="admin", is_admin=True)
     db.session.add(admin_user)
     db.session.commit()
 
     for qz in range(QUIZ_COUNT):
         commit_list = []
-        quiz = models.Quiz(name='Sample Quiz {}'.format(qz))
+        quiz = models.Quiz(name="Sample Quiz {}".format(qz))
         commit_list.append(quiz)
 
         questions = []
