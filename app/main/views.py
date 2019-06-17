@@ -3,7 +3,6 @@ import json
 
 from flask import (
     render_template, session, redirect, url_for, abort
-#     render_template, session, redirect, url_for, current_app
 )
 from . import main
 from .forms import LoginForm
@@ -43,15 +42,26 @@ def quizzes():
 @main.route('/quizzes/<quiz_id>')
 def quiz(quiz_id):
     quiz = models.Quiz.query.filter_by(id=quiz_id).first()
+    user = get_user()
+    done_questions = models.AnswerSelect.query.filter_by(
+        user_id=user.id, quiz_id=quiz.id).all()
+    done_ids = [d.question_id for d in done_questions]
+
+    done_qs = []  # This should also be a generator
+    for qs in quiz.questions:
+        if qs.id in done_ids:
+            done_qs.append(qs.id)
+    print(done_qs)
     if not quiz:
         abort(404)
 
-    return render_template("quiz.html", quizz=quiz)
+    return render_template("quiz.html", quizz=quiz, done_qs=done_qs)
 
 
 @main.route('/questions/<question_id>')
 def question(question_id):
     question = models.Question.query.filter_by(id=question_id).first()
+
     if not question:
         abort(404)
 
@@ -61,11 +71,14 @@ def question(question_id):
 @main.route('/question_answer/<answer_id>', methods=['POST'])
 def question_answer(answer_id):
     answer = models.Answer.query.filter_by(id=answer_id).first()
-    user = models.User.query.filter_by(id=session['user_id']).first()
+    user = get_user()
     if not answer:
         abort(404)
 
-    selection = models.AnswerSelect(user=user, answer=answer)
+    question_id = answer.question.id
+    quiz_id = answer.question.quiz.id
+    selection = models.AnswerSelect(
+        user=user, quiz_id=quiz_id, question_id=question_id, answer=answer)
     db.session.add(selection)
     db.session.commit()
 
@@ -73,3 +86,8 @@ def question_answer(answer_id):
         return json.dumps({"correct": True})
     else:
         return json.dumps({"correct": False})
+
+
+def get_user():
+    # TODO should be a class method on user model
+    return models.User.query.filter_by(id=session['user_id']).first()

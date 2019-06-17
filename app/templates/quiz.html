@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}Quiz{% endblock %}
 
@@ -10,8 +9,12 @@
 
 {% if quizz.questions %}
     {% for q in quizz.questions %}
-        <a class="list-group-item list-group-item-action" href="/questions/{{ q.id }}">{{ q.text }}</a>
+        {% if q.id in done_qs %}
+            <a class="list-group-item list-group-item-action disabled">{{ q.text }}</a>
+        {% else %}
+            <a class="list-group-item list-group-item-action" href="/questions/{{ q.id }}">{{ q.text }}</a>
+        {% endif %}
     {% endfor %}
 {% endif %}
-
+<button type="button" class="btn btn-light" onclick="location.href='/quizzes/'">Back</button>
 {% endblock %}

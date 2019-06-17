@@ -12,6 +12,13 @@ class User(db.Model):
     def __repr__(self):
         return '<user {}>'.format(self.name)
 
+    @classmethod
+    def by_id(cls, user_id):
+        return cls.query.filter_by(user_id).first()
+
+    # def quizzes_not_attempted(self, id):
+    #     return self.model
+
 
 class Quiz(db.Model):
     __tablename__ = 'quizzes'
@@ -49,6 +56,8 @@ class AnswerSelect(db.Model):
     __tablename__ = 'answerselects'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    quiz_id = db.Column(db.Integer, db.ForeignKey('quizzes.id'))
+    question_id = db.Column(db.Integer, db.ForeignKey('questions.id'))
     answer_id = db.Column(db.Integer, db.ForeignKey('answers.id'))
     created_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
@@ -57,5 +66,5 @@ class AnswerSelect(db.Model):
 
     def __repr__(self):
         return '<AnswerSelect {}:{}>'.format(
-            self.user.username,
+            self.user.name,
             self.answer.text)
