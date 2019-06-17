@@ -18,7 +18,7 @@ with app.app_context():
     db.drop_all()
     db.create_all()
 
-    admin_user = models.User(name="admin", is_admin=True)
+    admin_user = models.User(name="admin@example.com", is_admin=True)
     db.session.add(admin_user)
     db.session.commit()
 
