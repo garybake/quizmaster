@@ -1,0 +1,18 @@
+
+Documentaion 1 hour
+- Initial break down and plan
+- Breakdown of main tasks
+- Quiz lifecycle
+- ER diagram
+- Screens
+- Confirmed questions with client
+Flask build 4hours
+- Build models
+- Build db build/data generator quiz
+- Build basic restful endpoints
+- Build views
+- Add report endpoint
+- Linting (flake8)
+Docker/Go  1 hour
+- Go url report app
+- Add report app to docker
