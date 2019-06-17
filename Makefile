@@ -11,3 +11,10 @@ create_db:
 
 serve:
 	flask run
+
+build_report:
+	go build -o docker/report ./report/src/report.go
+	cd docker; docker build -t garybake/quiz .
+
+run_report:
+	docker run --network="host" garybake/quiz
